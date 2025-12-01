@@ -25,5 +25,8 @@ public:
 	TObjectPtr<UInputAction> IA_Look;
 
 	UPROPERTY(EditAnywhere, Category = "Input Action")
+	TObjectPtr<UInputAction> IA_Jump;
+
+	UPROPERTY(EditAnywhere, Category = "Input Action")
 	TObjectPtr<UInputAction> IA_Attack;
 };

@@ -54,6 +54,8 @@ void AGPCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	EnhancedInputComponent->BindAction(InputData->IA_Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
 	EnhancedInputComponent->BindAction(InputData->IA_Look, ETriggerEvent::Triggered, this, &ThisClass::Look);
+	EnhancedInputComponent->BindAction(InputData->IA_Jump, ETriggerEvent::Started, this, &ThisClass::GASInputPressed, 0);
+	EnhancedInputComponent->BindAction(InputData->IA_Jump, ETriggerEvent::Completed, this, &ThisClass::GASInputReleased, 0);
 }
 
 void AGPCharacterPlayer::PostInitializeComponents()
@@ -66,7 +68,6 @@ void AGPCharacterPlayer::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	InitAbilityActorInfo();
-	GiveDefaultAbilities();
 }
 
 void AGPCharacterPlayer::OnRep_PlayerState()
@@ -103,23 +104,15 @@ void AGPCharacterPlayer::InitAbilityActorInfo()
 			ASComp->GiveAbility(DefaultSpec);
 		}
 
+		for (const TPair<TSubclassOf<UGameplayAbility>, int32>& InputAbility : InputAbilities)
+		{
+			FGameplayAbilitySpec InputSpec(InputAbility.Key);
+			InputSpec.InputID = 0;
+			ASComp->GiveAbility(InputSpec);
+		}
+
 		APlayerController* PlayerController = Cast<APlayerController>(Controller);
 		PlayerController->ConsoleCommand(TEXT("showdebug abilitysystem"));
-	}
-}
-
-void AGPCharacterPlayer::GiveDefaultAbilities()
-{
-	if (HasAuthority())
-	{
-		if (ASComp)
-		{
-			for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultAbilities)
-			{
-				FGameplayAbilitySpec AbilitySpec(AbilityClass, 1);
-				ASComp->GiveAbility(AbilitySpec);
-			}
-		}
 	}
 }
 

@@ -49,11 +49,13 @@ protected:
 
 private:
 	void InitAbilityActorInfo();
-	void GiveDefaultAbilities();
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "GAS | Ability")
 	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
+
+	UPROPERTY(EditAnywhere, Category = "GAS | Ability")
+	TMap<TSubclassOf<UGameplayAbility>, int32> InputAbilities;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Component | Camera")
