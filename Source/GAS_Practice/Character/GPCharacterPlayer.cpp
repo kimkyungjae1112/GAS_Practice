@@ -56,6 +56,7 @@ void AGPCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	EnhancedInputComponent->BindAction(InputData->IA_Look, ETriggerEvent::Triggered, this, &ThisClass::Look);
 	EnhancedInputComponent->BindAction(InputData->IA_Jump, ETriggerEvent::Started, this, &ThisClass::GASInputPressed, 0);
 	EnhancedInputComponent->BindAction(InputData->IA_Jump, ETriggerEvent::Completed, this, &ThisClass::GASInputReleased, 0);
+	EnhancedInputComponent->BindAction(InputData->IA_Attack, ETriggerEvent::Started, this, &ThisClass::GASInputPressed, 1);
 }
 
 void AGPCharacterPlayer::PostInitializeComponents()
@@ -98,7 +99,7 @@ void AGPCharacterPlayer::InitAbilityActorInfo()
 		ASComp = PS->GetAbilitySystemComponent();
 		ASComp->InitAbilityActorInfo(PS, this);
 
-		for (const auto& DefaultAbility : DefaultAbilities)
+		for (const TSubclassOf<UGameplayAbility>& DefaultAbility : DefaultAbilities)
 		{
 			FGameplayAbilitySpec DefaultSpec(DefaultAbility);
 			ASComp->GiveAbility(DefaultSpec);
@@ -107,7 +108,7 @@ void AGPCharacterPlayer::InitAbilityActorInfo()
 		for (const TPair<TSubclassOf<UGameplayAbility>, int32>& InputAbility : InputAbilities)
 		{
 			FGameplayAbilitySpec InputSpec(InputAbility.Key);
-			InputSpec.InputID = 0;
+			InputSpec.InputID = InputAbility.Value;
 			ASComp->GiveAbility(InputSpec);
 		}
 
