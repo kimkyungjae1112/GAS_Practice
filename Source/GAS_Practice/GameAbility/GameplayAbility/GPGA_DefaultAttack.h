@@ -24,10 +24,16 @@ protected:
 	UFUNCTION()
 	void OnMontageEnded();
 
+	UFUNCTION()
+	void OnHitReceived(FGameplayEventData Payload);
+
 protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAnimMontage> AttackMontage;
+
+	UPROPERTY(EditAnywhere)
+	FGameplayTag HitEventTag;
 };

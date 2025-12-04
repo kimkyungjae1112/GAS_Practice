@@ -13,6 +13,7 @@
 #include "AbilitySystemComponent.h"
 #include "Player/GPPlayerState.h"
 #include "GameAbility/Tags/GPTags.h"
+#include "Components/GPEquipComponent.h"
 
 AGPCharacterPlayer::AGPCharacterPlayer()
 {
@@ -29,6 +30,8 @@ AGPCharacterPlayer::AGPCharacterPlayer()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	EquipComp = CreateDefaultSubobject<UGPEquipComponent>(TEXT("Equip Component"));
 
 	ASComp = nullptr;
 }

@@ -13,6 +13,7 @@ class UCameraComponent;
 class UGPInputData;
 class UGameplayAbility;
 class UAbilitySystemComponent;
+class UGPEquipComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -66,6 +67,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Component | GAS")
 	TObjectPtr<UAbilitySystemComponent> ASComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component | Equip")
+	TObjectPtr<UGPEquipComponent> EquipComp;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
